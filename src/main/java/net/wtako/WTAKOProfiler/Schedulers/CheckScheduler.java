@@ -8,6 +8,7 @@ import net.wtako.WTAKOProfiler.Methods.InfoShower;
 import net.wtako.WTAKOProfiler.Utils.ExperienceManager;
 
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
 
 public class CheckScheduler {
 
@@ -17,7 +18,7 @@ public class CheckScheduler {
     private static HashMap<Player, ExperienceManager> playerEXPManagers = new HashMap<Player, ExperienceManager>();
     private static HashMap<Player, Double>            playerEXPs        = new HashMap<Player, Double>();
     private static HashMap<Player, Double>            playerBalances    = new HashMap<Player, Double>();
-    private static final boolean[]                    notified          = new boolean[] {false};
+    private static final boolean[]                    notified          = new boolean[] {false, false};
 
     public CheckScheduler() {
         CheckScheduler.instance = this;
@@ -39,10 +40,13 @@ public class CheckScheduler {
                         if (checkEXP(player)) {
                             hasChange = true;
                         }
-                        if (checkOnlinePlayers()) {
-                            hasChange = true;
+                        for (int i = 0; i < CheckScheduler.notified.length; i++) {
+                            if (checkNotified(i)) {
+                                hasChange = true;
+                                break;
+                            }
                         }
-                        if (hasChange) {
+                        if (hasChange || player.getScoreboard().getObjective(DisplaySlot.SIDEBAR) == null) {
                             InfoShower.getInfoShower(player).showInfo();
                         }
                     }
@@ -114,9 +118,9 @@ public class CheckScheduler {
         return hasChange;
     }
 
-    private boolean checkOnlinePlayers() {
-        if (CheckScheduler.notified[0]) {
-            CheckScheduler.notified[0] = false;
+    private boolean checkNotified(int index) {
+        if (CheckScheduler.notified[index]) {
+            CheckScheduler.notified[index] = false;
             return true;
         }
         return false;

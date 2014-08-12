@@ -23,6 +23,8 @@ public enum Lang {
 
     PLAYER_INFO_ONLINE_PLAYERS("player-info-online-players", "Onl: {0}{1}"),
 
+    PLAYER_INFO_TPS("player-info-tps", "TPS: {0}{1}{2}"),
+
     PLAYER_INFO_EXTRA_MSG("player-info-extra-msg", "Extra message%lb%lies here."),
     PLAYER_INFO_FORMAT("player-info-format", "%lb%{0}{1}{2}{3}%lb%{4}%lb%{5}%lb%{6}"),
     PLAYER_INFO_DELIMITER("player-info-delimiter", "%lb%"),

@@ -42,17 +42,16 @@ public class InfoShower {
             }
         };
         currentTask.runTaskLaterAsynchronously(Main.getInstance(), InfoShower.diffLastSeconds * 20L);
-        final String healthMessage = MessageFormat.format(
-                Lang.PLAYER_INFO_HEALTH.toString(),
-                player.getHealth() <= InfoShower.dangerValue ? Lang.DANGER.toString()
-                        + String.valueOf(player.getHealth()) + Lang.NORMAL.toString() : player.getHealth(),
-                getDiffString(0))
-                + Lang.PLAYER_INFO_DELIMITER.toString();
-        final String foodMessage = MessageFormat.format(
-                Lang.PLAYER_INFO_FOOD.toString(),
-                player.getFoodLevel() <= InfoShower.dangerValue ? Lang.DANGER.toString()
-                        + String.valueOf(player.getHealth()) + Lang.NORMAL.toString() : player.getFoodLevel(),
-                getDiffString(1))
+        final String healthDisplay = MessageFormat.format("{0}{1}{2}",
+                player.getHealth() <= InfoShower.dangerValue ? Lang.DANGER.toString() : "", player.getHealth(),
+                player.getHealth() <= InfoShower.dangerValue ? Lang.NORMAL.toString() : "");
+        final String healthMessage = MessageFormat.format(Lang.PLAYER_INFO_HEALTH.toString(), healthDisplay,
+                getDiffString(0)) + Lang.PLAYER_INFO_DELIMITER.toString();
+        final String foodDisplay = MessageFormat.format("{0}{1}{2}",
+                player.getFoodLevel() <= InfoShower.dangerValue ? Lang.DANGER.toString() : "", player.getFoodLevel(),
+                player.getFoodLevel() <= InfoShower.dangerValue ? Lang.NORMAL.toString() : "");
+        final String foodMessage = MessageFormat
+                .format(Lang.PLAYER_INFO_FOOD.toString(), foodDisplay, getDiffString(1))
                 + Lang.PLAYER_INFO_DELIMITER.toString();
         final String expMessage = MessageFormat.format(Lang.PLAYER_INFO_EXP.toString(),
                 CheckScheduler.getEXPManager(player).getCurrentExp(), getDiffString(2))
@@ -67,9 +66,15 @@ public class InfoShower {
                 .getInstance().getServer().getOnlinePlayers().length,
                 StringUtils.getChangeText(GlobalCheckScheduler.getInstance().getDiffCache(0)))
                 + Lang.PLAYER_INFO_DELIMITER.toString();
+
+        final double tps = GlobalCheckScheduler.getInstance().getValue(1);
+        final double tpsDiff = GlobalCheckScheduler.getInstance().getDiffCache(1);
+        final String tpsMessage = MessageFormat.format(Lang.PLAYER_INFO_TPS.toString(), StringUtils.getTPSColor(tps),
+                Math.round(tps * 100D) / 100D, StringUtils.getChangeText(tpsDiff))
+                + Lang.PLAYER_INFO_DELIMITER.toString();
         final String message = MessageFormat.format(Lang.PLAYER_INFO_FORMAT.toString(), player.getName()
                 + Lang.PLAYER_INFO_DELIMITER.toString(), healthMessage, foodMessage, expMessage, balanceMessage,
-                onlinePlayersMessage, Lang.PLAYER_INFO_EXTRA_MSG.toString());
+                onlinePlayersMessage, Lang.PLAYER_INFO_EXTRA_MSG.toString(), tpsMessage);
         ScoreboardUtils.showScoreboardMessageLowPriority(Lang.PLAYER_INFO_TITLE.toString(), message,
                 Lang.PLAYER_INFO_DELIMITER.toString(), player);
     }

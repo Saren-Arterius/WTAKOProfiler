@@ -35,4 +35,18 @@ public class StringUtils {
         return MessageFormat.format(Lang.DIGIT_CHANGE_FORMAT.toString(), symbol, Math.abs(diff));
     }
 
+    public static ChatColor getTPSColor(double tps) {
+        if (tps >= 19.8) {
+            return ChatColor.AQUA;
+        } else if (tps >= 18) {
+            return ChatColor.GREEN;
+        } else if (tps >= 14) {
+            return ChatColor.YELLOW;
+        } else if (tps >= 10) {
+            return ChatColor.RED;
+        } else {
+            return ChatColor.DARK_RED;
+        }
+    }
+
 }

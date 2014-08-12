@@ -56,6 +56,7 @@ public class ScoreboardUtils {
                             score.setScore(currentScore);
                             currentScore--;
                         }
+                        player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
                         player.setScoreboard(board);
                     }
                 }.runTaskAsynchronously(Main.getInstance());
