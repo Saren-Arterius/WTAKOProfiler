@@ -1,6 +1,7 @@
 package net.wtako.WTAKOProfiler.Utils;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import net.wtako.WTAKOProfiler.Main;
 
@@ -21,6 +22,7 @@ public class ScoreboardUtils {
             final String delimiter, final Player player) {
 
         new BukkitRunnable() {
+
             @Override
             public void run() {
 
@@ -38,6 +40,7 @@ public class ScoreboardUtils {
                 final Scoreboard board = manager.getNewScoreboard();
 
                 new BukkitRunnable() {
+
                     @Override
                     public void run() {
                         final Objective objective = board.registerNewObjective("test", "dummy");

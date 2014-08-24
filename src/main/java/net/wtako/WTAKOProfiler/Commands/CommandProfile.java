@@ -1,5 +1,7 @@
 package net.wtako.WTAKOProfiler.Commands;
 
+import java.lang.reflect.InvocationTargetException;
+
 import net.wtako.WTAKOProfiler.Utils.CommandsProfile;
 import net.wtako.WTAKOProfiler.Utils.Lang;
 
@@ -9,7 +11,6 @@ import org.bukkit.command.CommandSender;
 
 public class CommandProfile implements CommandExecutor {
 
-    @Override
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length >= 1) {
@@ -27,7 +28,7 @@ public class CommandProfile implements CommandExecutor {
                 return true;
             }
             targetCommand.getTargetClass().getDeclaredConstructor(CommandSender.class, String[].class)
-            .newInstance(sender, args);
+                    .newInstance(sender, args);
             return true;
         } catch (final IllegalArgumentException e) {
             return false;

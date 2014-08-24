@@ -1,5 +1,11 @@
 package net.wtako.WTAKOProfiler.Methods;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.MessageFormat;
+import java.util.HashMap;
+
 import net.wtako.WTAKOProfiler.Main;
 import net.wtako.WTAKOProfiler.Schedulers.CheckScheduler;
 import net.wtako.WTAKOProfiler.Schedulers.GlobalCheckScheduler;
@@ -29,6 +35,7 @@ public class InfoShower {
             currentTask.cancel();
         }
         currentTask = new BukkitRunnable() {
+
             @Override
             public void run() {
                 showInfo();
@@ -37,12 +44,12 @@ public class InfoShower {
         currentTask.runTaskLaterAsynchronously(Main.getInstance(), InfoShower.diffLastSeconds * 20L);
         final String healthDisplay = MessageFormat.format("{0}{1}{2}",
                 player.getHealth() <= InfoShower.dangerValue ? Lang.DANGER.toString() : "", player.getHealth(),
-                        player.getHealth() <= InfoShower.dangerValue ? Lang.NORMAL.toString() : "");
+                player.getHealth() <= InfoShower.dangerValue ? Lang.NORMAL.toString() : "");
         final String healthMessage = MessageFormat.format(Lang.PLAYER_INFO_HEALTH.toString(), healthDisplay,
                 getDiffString(0)) + Lang.PLAYER_INFO_DELIMITER.toString();
         final String foodDisplay = MessageFormat.format("{0}{1}{2}",
                 player.getFoodLevel() <= InfoShower.dangerValue ? Lang.DANGER.toString() : "", player.getFoodLevel(),
-                        player.getFoodLevel() <= InfoShower.dangerValue ? Lang.NORMAL.toString() : "");
+                player.getFoodLevel() <= InfoShower.dangerValue ? Lang.NORMAL.toString() : "");
         final String foodMessage = MessageFormat
                 .format(Lang.PLAYER_INFO_FOOD.toString(), foodDisplay, getDiffString(1))
                 + Lang.PLAYER_INFO_DELIMITER.toString();

@@ -1,5 +1,9 @@
 package net.wtako.WTAKOProfiler.Schedulers;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import net.wtako.WTAKOProfiler.Main;
 import net.wtako.WTAKOProfiler.Methods.InfoShower;
 import net.wtako.WTAKOProfiler.Methods.MemoryDatabase;
@@ -17,6 +21,7 @@ public class GlobalCheckScheduler extends BukkitRunnable {
         GlobalCheckScheduler.instance = this;
         runTaskTimerAsynchronously(Main.getInstance(), 0L, Config.CHECKER_INTERVAL.getLong());
         new BukkitRunnable() {
+
             @Override
             public void run() {
                 checkTPS();
@@ -52,10 +57,12 @@ public class GlobalCheckScheduler extends BukkitRunnable {
     private void checkTPS() {
         final long currentTime = System.currentTimeMillis();
         new BukkitRunnable() {
+
             @Override
             public void run() {
                 final long endTime = System.currentTimeMillis();
                 new BukkitRunnable() {
+
                     @Override
                     public void run() {
                         double tps = (Config.TPS_CHECK_INTERVAL.getDouble() * 1000D) / (endTime - currentTime);

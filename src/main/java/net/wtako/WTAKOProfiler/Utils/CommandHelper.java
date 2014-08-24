@@ -3,18 +3,18 @@ package net.wtako.WTAKOProfiler.Utils;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import net.wtako.WTAKOProfiler.Main;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.google.common.collect.Multiset.Entry;
-
 public class CommandHelper {
 
     public static void sendHelp(final CommandSender sender, final BaseCommands[] commandValues, final String commandName) {
         new BukkitRunnable() {
+
             @Override
             public void run() {
                 final ArrayList<String> messages = new ArrayList<String>();

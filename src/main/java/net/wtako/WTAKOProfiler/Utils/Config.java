@@ -1,5 +1,7 @@
 package net.wtako.WTAKOProfiler.Utils;
 
+import java.util.List;
+
 import net.wtako.WTAKOProfiler.Main;
 
 import org.bukkit.configuration.file.FileConfiguration;

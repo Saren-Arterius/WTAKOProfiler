@@ -1,5 +1,11 @@
 package net.wtako.WTAKOProfiler;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import net.milkbowl.vault.economy.Economy;
 import net.wtako.WTAKOProfiler.Commands.CommandProfile;
 import net.wtako.WTAKOProfiler.Methods.InfoShower;
@@ -25,7 +31,6 @@ public final class Main extends JavaPlugin {
     public static Economy           economy = null;
 
     @Override
-    @Override
     public void onEnable() {
         Main.instance = this;
         Main.artifactId = getProperty("artifactId");
@@ -50,7 +55,6 @@ public final class Main extends JavaPlugin {
         }
     }
 
-    @Override
     @Override
     public void onDisable() {
         CheckScheduler.reload();

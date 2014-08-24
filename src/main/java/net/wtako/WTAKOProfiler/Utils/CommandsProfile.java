@@ -24,18 +24,15 @@ public enum CommandsProfile implements BaseCommands {
     }
 
     @Override
-    @Override
     public String getHelpMessage() {
         return helpMessage;
     }
 
     @Override
-    @Override
     public Class<?> getTargetClass() {
         return targetClass;
     }
 
-    @Override
     @Override
     public String getRequiredPermission() {
         return permission;

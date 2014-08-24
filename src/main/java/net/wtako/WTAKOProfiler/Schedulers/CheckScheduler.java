@@ -1,5 +1,8 @@
 package net.wtako.WTAKOProfiler.Schedulers;
 
+import java.sql.SQLException;
+import java.util.HashMap;
+
 import net.wtako.WTAKOProfiler.Main;
 import net.wtako.WTAKOProfiler.Methods.InfoShower;
 import net.wtako.WTAKOProfiler.Utils.Config;
@@ -23,6 +26,7 @@ public class CheckScheduler extends BukkitRunnable {
         CheckScheduler.instance = this;
         runTaskTimerAsynchronously(Main.getInstance(), 0L, Config.CHECKER_INTERVAL.getLong());
         new BukkitRunnable() {
+
             @Override
             public void run() {
                 for (final Player player: Main.getInstance().getServer().getOnlinePlayers()) {
@@ -81,8 +85,8 @@ public class CheckScheduler extends BukkitRunnable {
                 || CheckScheduler.playerHealths.get(player) != currentHealth) {
             final double diff = CheckScheduler.playerHealths.get(player) != null ? currentHealth
                     - CheckScheduler.playerHealths.get(player) : 0;
-                    InfoShower.getInfoShower(player).addDiff(0, diff);
-                    hasChange = true;
+            InfoShower.getInfoShower(player).addDiff(0, diff);
+            hasChange = true;
         }
         CheckScheduler.playerHealths.put(player, currentHealth);
         return hasChange;
@@ -94,8 +98,8 @@ public class CheckScheduler extends BukkitRunnable {
         if (!CheckScheduler.playerFoods.containsKey(player) || CheckScheduler.playerFoods.get(player) != currentFood) {
             final double diff = CheckScheduler.playerFoods.get(player) != null ? currentFood
                     - CheckScheduler.playerFoods.get(player) : 0;
-                    InfoShower.getInfoShower(player).addDiff(1, diff);
-                    hasChange = true;
+            InfoShower.getInfoShower(player).addDiff(1, diff);
+            hasChange = true;
         }
         CheckScheduler.playerFoods.put(player, currentFood);
         return hasChange;
@@ -110,8 +114,8 @@ public class CheckScheduler extends BukkitRunnable {
         if (!CheckScheduler.playerEXPs.containsKey(player) || CheckScheduler.playerEXPs.get(player) != currentEXP) {
             final double diff = CheckScheduler.playerEXPs.get(player) != null ? currentEXP
                     - CheckScheduler.playerEXPs.get(player) : 0;
-                    InfoShower.getInfoShower(player).addDiff(2, diff);
-                    hasChange = true;
+            InfoShower.getInfoShower(player).addDiff(2, diff);
+            hasChange = true;
         }
         CheckScheduler.playerEXPs.put(player, currentEXP);
         return hasChange;
@@ -127,8 +131,8 @@ public class CheckScheduler extends BukkitRunnable {
                 || CheckScheduler.playerBalances.get(player) != currentBalance) {
             final double diff = CheckScheduler.playerBalances.get(player) != null ? currentBalance
                     - CheckScheduler.playerBalances.get(player) : 0;
-                    InfoShower.getInfoShower(player).addDiff(3, diff);
-                    hasChange = true;
+            InfoShower.getInfoShower(player).addDiff(3, diff);
+            hasChange = true;
         }
         CheckScheduler.playerBalances.put(player, currentBalance);
         return hasChange;

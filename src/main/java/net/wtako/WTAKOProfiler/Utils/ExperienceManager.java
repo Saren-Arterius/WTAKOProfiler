@@ -1,5 +1,6 @@
 package net.wtako.WTAKOProfiler.Utils;
 
+import java.lang.ref.WeakReference;
 import java.util.Arrays;
 
 import org.apache.commons.lang.Validate;
