@@ -11,7 +11,7 @@ import org.bukkit.scoreboard.ScoreboardManager;
 
 public class ArgTSh {
 
-    public ArgTSh(CommandSender sender) {
+    public ArgTSh(final CommandSender sender, String[] args) {
         if (ScoreboardUtils.noShowScoreboardPlayers.contains(((Player) sender).getUniqueId())) {
             ScoreboardUtils.noShowScoreboardPlayers.remove(((Player) sender).getUniqueId());
             sender.sendMessage(Lang.PLAYER_INFO_SHOW_AGAIN.toString());

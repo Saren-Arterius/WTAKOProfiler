@@ -1,14 +1,9 @@
 package net.wtako.WTAKOProfiler.Methods;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.MessageFormat;
-import java.util.HashMap;
-
 import net.wtako.WTAKOProfiler.Main;
 import net.wtako.WTAKOProfiler.Schedulers.CheckScheduler;
 import net.wtako.WTAKOProfiler.Schedulers.GlobalCheckScheduler;
+import net.wtako.WTAKOProfiler.Utils.Config;
 import net.wtako.WTAKOProfiler.Utils.Lang;
 import net.wtako.WTAKOProfiler.Utils.ScoreboardUtils;
 import net.wtako.WTAKOProfiler.Utils.StringUtils;
@@ -22,10 +17,8 @@ public class InfoShower {
 
     private BukkitRunnable                     currentTask;
     private final Player                       player;
-    public static long                         diffLastSeconds = Main.getInstance().getConfig()
-                                                                       .getLong("InfoBox.DiffLastSeconds");
-    public static int                          dangerValue     = Main.getInstance().getConfig()
-                                                                       .getInt("InfoBox.DangerValue");
+    public static long                         diffLastSeconds = Config.DIFF_LAST.getLong();
+    public static int                          dangerValue     = Config.DANGER_VALUE.getInt();
 
     public InfoShower(Player player) {
         this.player = player;
@@ -44,12 +37,12 @@ public class InfoShower {
         currentTask.runTaskLaterAsynchronously(Main.getInstance(), InfoShower.diffLastSeconds * 20L);
         final String healthDisplay = MessageFormat.format("{0}{1}{2}",
                 player.getHealth() <= InfoShower.dangerValue ? Lang.DANGER.toString() : "", player.getHealth(),
-                player.getHealth() <= InfoShower.dangerValue ? Lang.NORMAL.toString() : "");
+                        player.getHealth() <= InfoShower.dangerValue ? Lang.NORMAL.toString() : "");
         final String healthMessage = MessageFormat.format(Lang.PLAYER_INFO_HEALTH.toString(), healthDisplay,
                 getDiffString(0)) + Lang.PLAYER_INFO_DELIMITER.toString();
         final String foodDisplay = MessageFormat.format("{0}{1}{2}",
                 player.getFoodLevel() <= InfoShower.dangerValue ? Lang.DANGER.toString() : "", player.getFoodLevel(),
-                player.getFoodLevel() <= InfoShower.dangerValue ? Lang.NORMAL.toString() : "");
+                        player.getFoodLevel() <= InfoShower.dangerValue ? Lang.NORMAL.toString() : "");
         final String foodMessage = MessageFormat
                 .format(Lang.PLAYER_INFO_FOOD.toString(), foodDisplay, getDiffString(1))
                 + Lang.PLAYER_INFO_DELIMITER.toString();

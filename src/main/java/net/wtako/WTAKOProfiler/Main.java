@@ -1,18 +1,12 @@
 package net.wtako.WTAKOProfiler;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import net.milkbowl.vault.economy.Economy;
 import net.wtako.WTAKOProfiler.Commands.CommandProfile;
 import net.wtako.WTAKOProfiler.Methods.InfoShower;
 import net.wtako.WTAKOProfiler.Methods.MemoryDatabase;
 import net.wtako.WTAKOProfiler.Schedulers.CheckScheduler;
 import net.wtako.WTAKOProfiler.Schedulers.GlobalCheckScheduler;
+import net.wtako.WTAKOProfiler.Utils.Config;
 import net.wtako.WTAKOProfiler.Utils.Lang;
 
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -24,26 +18,22 @@ import org.bukkit.scoreboard.DisplaySlot;
 public final class Main extends JavaPlugin {
 
     private static Main             instance;
+    public static String            artifactId;
     public static YamlConfiguration LANG;
     public static File              LANG_FILE;
     public static Logger            log     = Logger.getLogger("WTAKOProfiler");
     public static Economy           economy = null;
 
     @Override
+    @Override
     public void onEnable() {
         Main.instance = this;
-        saveDefaultConfig();
-        getConfig().options().copyDefaults(true);
+        Main.artifactId = getProperty("artifactId");
         getCommand(getProperty("mainCommand")).setExecutor(new CommandProfile());
+        Config.saveAll();
         loadLang();
-        if (Main.getInstance().getConfig().getBoolean("InfoBox.CheckEcon")) {
+        if (Config.CHECK_ECON.getBoolean()) {
             setupEconomy();
-        }
-        if (Main.getInstance().getConfig().getBoolean("InfoBox.Enabled") && CheckScheduler.getInstance() == null) {
-            new CheckScheduler();
-        }
-        if (Main.getInstance().getConfig().getBoolean("InfoBox.Enabled") && GlobalCheckScheduler.getInstance() == null) {
-            new GlobalCheckScheduler();
         }
         if (MemoryDatabase.getInstance() == null) {
             try {
@@ -52,9 +42,15 @@ public final class Main extends JavaPlugin {
                 e.printStackTrace();
             }
         }
-
+        if (Config.INFOBOX_ENABLED.getBoolean() && CheckScheduler.getInstance() == null) {
+            new CheckScheduler();
+        }
+        if (Config.INFOBOX_ENABLED.getBoolean() && GlobalCheckScheduler.getInstance() == null) {
+            new GlobalCheckScheduler();
+        }
     }
 
+    @Override
     @Override
     public void onDisable() {
         CheckScheduler.reload();
@@ -70,19 +66,16 @@ public final class Main extends JavaPlugin {
             try {
                 getDataFolder().mkdir();
                 lang.createNewFile();
-                final InputStream defConfigStream = getResource("messages.yml");
-                if (defConfigStream != null) {
-                    final YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-                    defConfig.save(lang);
-                    Lang.setFile(defConfig);
-                    return;
-                }
+                final YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(lang);
+                defConfig.save(lang);
+                Lang.setFile(defConfig);
+                return;
             } catch (final IOException e) {
                 e.printStackTrace(); // So they notice
                 Main.log.severe("[" + Main.getInstance().getName() + "] Couldn't create language file.");
                 Main.log.severe("[" + Main.getInstance().getName() + "] This is a fatal error. Now disabling");
                 setEnabled(false); // Without it loaded, we can't send them
-                                   // messages
+                // messages
             }
         }
         final YamlConfiguration conf = YamlConfiguration.loadConfiguration(lang);

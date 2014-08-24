@@ -1,7 +1,5 @@
 package net.wtako.WTAKOProfiler.Utils;
 
-import java.text.MessageFormat;
-
 import org.bukkit.ChatColor;
 
 public class StringUtils {

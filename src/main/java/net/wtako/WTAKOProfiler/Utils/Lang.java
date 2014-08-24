@@ -12,40 +12,38 @@ import org.bukkit.configuration.file.YamlConfiguration;
  */
 public enum Lang {
 
-    TITLE("title", "[" + Main.getInstance().getName() + "]"),
+    TITLE("[" + Main.getInstance().getName() + "]"),
 
-    PLAYER_INFO_TITLE("player-info-title", "Player info"),
-    PLAYER_INFO_HEALTH("player-info-health", "H: {0}{1}"),
-    PLAYER_INFO_FOOD("player-info-food", "F: {0}{1}"),
-    PLAYER_INFO_EXP("player-info-exp", "XP: {0}{1}"),
+    PLAYER_INFO_TITLE("Player info"),
+    PLAYER_INFO_HEALTH("H: {0}{1}"),
+    PLAYER_INFO_FOOD("F: {0}{1}"),
+    PLAYER_INFO_EXP("XP: {0}{1}"),
+    PLAYER_INFO_BALANCE("${0}{1}"),
+    PLAYER_INFO_ONLINE_PLAYERS("Onl: {0}{1}"),
+    PLAYER_INFO_TPS("TPS: {0}{1}{2}"),
+    PLAYER_INFO_EXTRA_MSG("Extra message%lb%lies here."),
+    PLAYER_INFO_FORMAT("%lb%{0}{1}{2}{3}%lb%{4}%lb%{5}%lb%{6}"),
+    PLAYER_INFO_DELIMITER("%lb%"),
+    PLAYER_INFO_NO_LONGER_SHOW("&aPlayer info will no longer be shown until server restart."),
+    PLAYER_INFO_SHOW_AGAIN("&aPlayer info will show upon your player."),
 
-    PLAYER_INFO_BALANCE("player-info-balance", "${0}{1}"),
+    DIGIT_CHANGE_FORMAT(" {0}{1}"),
+    ADD_SYMBOL("&a+"),
+    MINUS_SYMBOL("&c-"),
+    DANGER("&c"),
+    NORMAL("&f"),
 
-    PLAYER_INFO_ONLINE_PLAYERS("player-info-online-players", "Onl: {0}{1}"),
-
-    PLAYER_INFO_TPS("player-info-tps", "TPS: {0}{1}{2}"),
-
-    PLAYER_INFO_EXTRA_MSG("player-info-extra-msg", "Extra message%lb%lies here."),
-    PLAYER_INFO_FORMAT("player-info-format", "%lb%{0}{1}{2}{3}%lb%{4}%lb%{5}%lb%{6}"),
-    PLAYER_INFO_DELIMITER("player-info-delimiter", "%lb%"),
-
-    PLAYER_INFO_NO_LONGER_SHOW(
-            "player-info-no-longer-show",
-            "&aPlayer info will no longer be shown until server restart."),
-    PLAYER_INFO_SHOW_AGAIN("player-info-show-again", "&aPlayer info will show upon your player."),
-
-    DIGIT_CHANGE_FORMAT("digit-change-format", " {0}{1}"),
-    ADD_SYMBOL("add-symbol", "&a+"),
-    MINUS_SYMBOL("minus-symbol", "&c-"),
-    DANGER("danger", "&c"),
-    NORMAL("normal", "&f"),
-
-    HELP_TSH("help-tsh", "Type &a/" + Main.getInstance().getProperty("mainCommand").toLowerCase()
-            + " tsh&f to toggle player info showing."),
-    HELP_RELOAD("help-reload", "Type &a/" + Main.getInstance().getProperty("mainCommand")
-            + " reload&f to reload the plugin. &c(OP only)"),
-    PLUGIN_RELOADED("plugin-reloaded", "&aPlugin reloaded."),
-    NO_PERMISSION_COMMAND("no-permission-command", "&cYou are not allowed to use this command.");
+    COMMAND_HELP_SEPERATOR("&6 | &a"),
+    COMMAND_ARG_IN_USE("&e{0}&a"),
+    SUB_COMMAND("Sub-command: &e{0}"),
+    HELP_HELP("Type &b/" + Main.getInstance().getProperty("mainCommand") + " &a{0}&f to show help (this message)."),
+    HELP_TSH("Type &a/" + Main.getInstance().getProperty("mainCommand").toLowerCase()
+            + " &a{0}&f to toggle player info showing."),
+            HELP_RELOAD("Type &a/" + Main.getInstance().getProperty("mainCommand")
+                    + " &a{0}&f to reload the plugin. &c(OP only)"),
+                    PLUGIN_RELOADED("&aPlugin reloaded."),
+                    NO_PERMISSION_HELP(" (&cno permission&f)"),
+                    NO_PERMISSION_COMMAND("&cYou are not allowed to use this command.");
 
     private String                   path;
     private String                   def;
@@ -59,8 +57,8 @@ public enum Lang {
      * @param start
      *            The default string.
      */
-    Lang(String path, String start) {
-        this.path = path;
+    Lang(String start) {
+        path = name().toLowerCase().replace("_", "-");
         def = start;
     }
 

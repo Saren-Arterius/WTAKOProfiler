@@ -1,16 +1,13 @@
 package net.wtako.WTAKOProfiler.Schedulers;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import net.wtako.WTAKOProfiler.Main;
 import net.wtako.WTAKOProfiler.Methods.InfoShower;
 import net.wtako.WTAKOProfiler.Methods.MemoryDatabase;
+import net.wtako.WTAKOProfiler.Utils.Config;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class GlobalCheckScheduler {
+public class GlobalCheckScheduler extends BukkitRunnable {
 
     private static GlobalCheckScheduler instance   = null;
     private static final double[]       values     = new double[] {0, 20};
@@ -18,24 +15,24 @@ public class GlobalCheckScheduler {
 
     public GlobalCheckScheduler() {
         GlobalCheckScheduler.instance = this;
-        Main.getInstance().getServer().getScheduler().runTaskTimerAsynchronously(Main.getInstance(), new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (checkOnlinePlayers()) {
-                        CheckScheduler.notify(0);
-                    }
-                } catch (final SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, 0L, Main.getInstance().getConfig().getLong("InfoBox.CheckerTicksInterval"));
-        Main.getInstance().getServer().getScheduler().runTaskTimerAsynchronously(Main.getInstance(), new Runnable() {
+        runTaskTimerAsynchronously(Main.getInstance(), 0L, Config.CHECKER_INTERVAL.getLong());
+        new BukkitRunnable() {
             @Override
             public void run() {
                 checkTPS();
             }
-        }, 0L, 40L);
+        }.runTaskTimer(Main.getInstance(), 0L, Config.TPS_CHECK_INTERVAL.getLong());
+    }
+
+    @Override
+    public void run() {
+        try {
+            if (checkOnlinePlayers()) {
+                CheckScheduler.notify(0);
+            }
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean checkOnlinePlayers() throws SQLException {
@@ -61,10 +58,10 @@ public class GlobalCheckScheduler {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        double tps = 20000D / (endTime - currentTime);
+                        double tps = (Config.TPS_CHECK_INTERVAL.getDouble() * 1000D) / (endTime - currentTime);
                         tps = tps > 20 ? 20 : tps;
                         boolean hasChange = false;
-                        if (Math.round(GlobalCheckScheduler.values[1] * 10D) / 10D != tps) {
+                        if (Math.round(GlobalCheckScheduler.values[1] * 10D) / 10D != Math.round(tps * 10D) / 10D) {
                             try {
                                 addDiff(1, tps - GlobalCheckScheduler.values[1]);
                             } catch (final SQLException e) {
@@ -85,7 +82,7 @@ public class GlobalCheckScheduler {
                     }
                 }.runTaskAsynchronously(Main.getInstance());
             }
-        }.runTaskLater(Main.getInstance(), 20L);
+        }.runTaskLater(Main.getInstance(), Config.TPS_CHECK_INTERVAL.getLong());
     }
 
     private void addDiff(int index, double diff) throws SQLException {

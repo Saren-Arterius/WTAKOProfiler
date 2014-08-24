@@ -1,7 +1,6 @@
 package net.wtako.WTAKOProfiler.Utils;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import net.wtako.WTAKOProfiler.Main;
 
@@ -56,8 +55,13 @@ public class ScoreboardUtils {
                             score.setScore(currentScore);
                             currentScore--;
                         }
-                        player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
-                        player.setScoreboard(board);
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+                                player.setScoreboard(board);
+                            }
+                        }.runTask(Main.getInstance());
                     }
                 }.runTaskAsynchronously(Main.getInstance());
             }
