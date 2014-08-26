@@ -41,7 +41,7 @@ public class MemoryDatabase {
     }
 
     public void purgeData() throws SQLException {
-        final long oldTime = (System.currentTimeMillis() / 1000L) - (InfoShower.diffLastSeconds * 1000L);
+        final long oldTime = System.currentTimeMillis() - (InfoShower.diffLastSeconds * 1000L);
         final PreparedStatement delStmt1 = conn.prepareStatement("DELETE FROM `player_diffs` WHERE timestamp < ?");
         delStmt1.setLong(1, oldTime);
         delStmt1.execute();
@@ -50,6 +50,9 @@ public class MemoryDatabase {
         delStmt2.setLong(1, oldTime);
         delStmt2.execute();
         delStmt2.close();
+        final PreparedStatement vacStmt = conn.prepareStatement("VACCUM");
+        vacStmt.executeUpdate();
+        vacStmt.close();
     }
 
     public static MemoryDatabase getInstance() {

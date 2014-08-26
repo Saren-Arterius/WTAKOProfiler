@@ -39,11 +39,11 @@ public enum Lang {
     HELP_HELP("Type &b/" + Main.getInstance().getProperty("mainCommand") + " &a{0}&f to show help (this message)."),
     HELP_TSH("Type &a/" + Main.getInstance().getProperty("mainCommand").toLowerCase()
             + " &a{0}&f to toggle player info showing."),
-    HELP_RELOAD("Type &a/" + Main.getInstance().getProperty("mainCommand")
-            + " &a{0}&f to reload the plugin. &c(OP only)"),
-    PLUGIN_RELOADED("&aPlugin reloaded."),
-    NO_PERMISSION_HELP(" (&cno permission&f)"),
-    NO_PERMISSION_COMMAND("&cYou are not allowed to use this command.");
+            HELP_RELOAD("Type &a/" + Main.getInstance().getProperty("mainCommand")
+                    + " &a{0}&f to reload the plugin. &c(OP only)"),
+                    PLUGIN_RELOADED("&aPlugin reloaded."),
+                    NO_PERMISSION_HELP(" (&cno permission&f)"),
+                    NO_PERMISSION_COMMAND("&cYou are not allowed to use this command.");
 
     private String                   path;
     private String                   def;
