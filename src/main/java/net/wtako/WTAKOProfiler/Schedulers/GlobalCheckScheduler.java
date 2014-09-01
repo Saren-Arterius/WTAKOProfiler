@@ -42,7 +42,7 @@ public class GlobalCheckScheduler extends BukkitRunnable {
 
     private boolean checkOnlinePlayers() throws SQLException {
         boolean hasChange = false;
-        final int playersOnline = Main.getInstance().getServer().getOnlinePlayers().length;
+        final int playersOnline = Main.getInstance().getServer().getOnlinePlayers().size();
         if (playersOnline != GlobalCheckScheduler.values[0]) {
             final double diff = playersOnline - GlobalCheckScheduler.values[0];
             addDiff(0, diff);

@@ -17,7 +17,6 @@ public class ScoreboardUtils {
 
     public static ArrayList<UUID> noShowScoreboardPlayers = new ArrayList<UUID>();
 
-    @SuppressWarnings("deprecation")
     public static void showScoreboardMessageLowPriority(final String title, final String message,
             final String delimiter, final Player player) {
 
@@ -53,8 +52,7 @@ public class ScoreboardUtils {
                             final String msg = item.equalsIgnoreCase("") ? StringUtils.toInvisible(String
                                     .valueOf(currentScore)) : item
                                     .substring(0, item.length() > 16 ? 15 : item.length());
-                            final Score score = objective
-                                    .getScore(Main.getInstance().getServer().getOfflinePlayer(msg));
+                            final Score score = objective.getScore(msg);
                             score.setScore(currentScore);
                             currentScore--;
                         }

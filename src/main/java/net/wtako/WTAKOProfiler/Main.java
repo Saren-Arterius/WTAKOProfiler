@@ -129,6 +129,7 @@ public final class Main extends JavaPlugin {
         return Main.LANG_FILE;
     }
 
+    @SuppressWarnings("deprecation")
     public String getProperty(String key) {
         final YamlConfiguration spawnConfig = YamlConfiguration.loadConfiguration(getResource("plugin.yml"));
         return spawnConfig.getString(key);
